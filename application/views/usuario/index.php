@@ -17,9 +17,9 @@ include $base . '\..\layout\menu.php';
     <h1 class="display-4">Lista de Usuários</h1>
     <hr class="my-4">
 
-    <form action="/usuario/index" method="GET" class="form-inline">
+    <form action="/usuario/pesquisarUsuario" method="POST" class="form-inline">
         <div class="form-group">
-            <input type="text" name="termo_pesquisa" placeholder="Pesquisar por nome" class="form-control mr-2">
+            <input type="text" name="nome" placeholder="Pesquisar por nome" class="form-control mr-2">
         </div>
         <button type="submit" class="btn btn-outline-primary">Pesquisar</button>
     </form>

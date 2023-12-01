@@ -121,21 +121,21 @@ class ProdutoDAO
     }
 
     // PESQUISA 
-    public function pesquisarPorNome($termoPesquisa)
+    public function buscarPorNome($nome)
     {
         $conn = $this->conexao->getConexao();
-        $SQL = "SELECT * FROM produtos WHERE nome LIKE '$termoPesquisa%'";
+        $SQL = "SELECT * FROM produtos WHERE nome LIKE '$nome%'";
         $result = $conn->query($SQL);
         $produtos = [];
 
         while ($row = $result->fetch_assoc()) {
             $produto = new Produto(
-                isset($row["nome"]) ? $row["nome"] : null,
-                isset($row["marca"]) ? $row["marca"] : null,
-                isset($row["preco"]) ? $row["preco"] : null,
-                isset($row["imagem_url"]) ? $row["imagem_url"] : null
+                $row['nome'] ?? null,
+                $row['marca'] ?? null,
+                $row['preco'] ?? null,
+                $row['imagem_url'] ?? null
             );
-            $produto->setCodigo(isset($row["codigo"]) ? $row["codigo"] : null);
+            $produto->setCodigo($row['codigo'] ?? null);
             array_push($produtos, $produto);
         }
 

@@ -17,7 +17,7 @@ include $base . '\..\layout\menu.php';
     <hr class="my-4">
     <form action="/produto/pesquisarProduto" method="POST" class="form-inline">
     <div class="form-group">
-        <input type="text" name="termo_pesquisa" placeholder="Pesquisar por nome" class="form-control mr-2">
+        <input type="text" name="nome" placeholder="Pesquisar por nome" class="form-control mr-2">
     </div>
     <button type="submit" class="btn btn-outline-primary">Pesquisar</button>
 </form>

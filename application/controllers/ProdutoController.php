@@ -106,10 +106,10 @@ class ProdutoController extends Controller
     // PESQUISA
     public function pesquisarProduto()
     {
-        $termoPesquisa = filter_input(INPUT_POST, "termo_pesquisa");
+        $nome = filter_input(INPUT_POST, "nome");
 
         $produtoDAO = new ProdutoDAO();
-        $produtos = $produtoDAO->pesquisarPorNome($termoPesquisa);
+        $produtos = $produtoDAO->buscarPorNome($nome);
 
         $this->view('produto/index', ['produtos' => $produtos]);
     }

@@ -55,7 +55,7 @@ class UsuarioDAO
             );
 
             $usuario->setId(isset($row["id"]) ? $row["id"] : null);
-            array_push($usuarios, $usuario);           
+            array_push($usuarios, $usuario);
         }
         return $usuarios;
     }
@@ -76,8 +76,8 @@ class UsuarioDAO
                 $row["email"] ?? null,
                 $row["senha"] ?? null
 
-            );            
-            $usuario->setId($row["id"]);           
+            );
+            $usuario->setId($row["id"]);
             return $usuario;
         }
         return null;
@@ -123,36 +123,23 @@ class UsuarioDAO
     // PESQUISA
     public function buscarPorNome($nome)
     {
-
         $conn = $this->conexao->getConexao();
-        $nome = $conn->real_escape_string($nome);
+        $SQL = "SELECT * FROM usuarios WHERE nome LIKE '$nome%'";
+        $result = $conn->query($SQL);
+        $usuarios = [];
 
-        $SQL = "SELECT * FROM usuarios WHERE nome LIKE '%$nome%'";
+        while ($row = $result->fetch_assoc()) {
+            $usuario = new Usuario(
+                $row['nome'] ?? null,
+                $row['email'] ?? null,
+                $row['senha'] ?? null,
 
-        try {
-            $result = $conn->query($SQL);
-
-            $usuarios = [];
-
-            while ($row = $result->fetch_assoc()) {
-                $usuario = new Usuario(
-                    $row['nome'],
-                    $row['email'],
-                    $row['senha']
-                );
-
-                if (method_exists($usuario, 'setId') && isset($row["id"])) {
-                    $usuario->setId($row["id"]);
-                }
-
-                array_push($usuarios, $usuario);
-            }
-
-            return $usuarios;
-        } catch (\Exception $e) {
-            return null;
+            );
+            $usuario->setId($row['id'] ?? null);
+            array_push($usuarios, $usuario);
         }
-    }
 
+        return $usuarios;
+    }
 }
 ?>

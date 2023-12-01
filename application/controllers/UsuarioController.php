@@ -112,8 +112,17 @@ class UsuarioController extends Controller
         header("Location: ../home/index");
         exit();
     }
-}
+
 
     // PESQUISA
-    
+    public function pesquisarUsuario()
+    {
+        $nome = filter_input(INPUT_POST, "nome");
+        $usuarioDAO = new UsuarioDAO();
+        $usuarios = $usuarioDAO->buscarPorNome($nome);
+
+        $this->view('usuario/index', ['usuario' => $usuarios]);
+    }
+}
+
 ?>
