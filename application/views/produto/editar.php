@@ -19,7 +19,7 @@ if (isset($data["produto"])) {
     <h1 class="display-4">Atualizar Produto</h1>
     <hr class="my-4">
 
-    <form method="post" action="/produto/atualizar/<?= $produto->getCodigo() ?>">
+    <form method="POST" action="/produto/atualizar/<?= $produto->getCodigo() ?>" enctype="multipart/form-data">
 
         <div class="form-group">
             <label for="nome">Nome:</label>

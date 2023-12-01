@@ -92,7 +92,7 @@ class UsuarioController extends Controller
 
             if (!empty($usuarios)) {
                 $usuario = $usuarios[0];
-                
+
                 if ($usuario->getNome() === $nome && password_verify($senha, $usuario->getSenha())) {
                     $_SESSION['usuario'] = $usuario;
                     $this->view('produto/index', ['msg' => 'Login realizado com sucesso.']);
