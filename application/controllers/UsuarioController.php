@@ -83,23 +83,26 @@ class UsuarioController extends Controller
     // LOGIN
     public function login()
     {
-        $nome = $_POST['nome']??'';
-        $senha = $_POST['senha']??'';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nome = $_POST['nome'] ?? '';
+            $senha = $_POST['senha'] ?? '';
 
-        $usuarioDAO = new UsuarioDAO();
-        $usuarios = $usuarioDAO->buscarPorNome($nome);
+            $usuarioDAO = new UsuarioDAO();
+            $usuarios = $usuarioDAO->buscarPorNome($nome);
 
-        if (!empty($usuarios)) {
-            $usuario = $usuarios[0];
-            if (password_verify($senha, $usuario->getSenha())) {
-
-                $_SESSION['usuario'] = $usuario;
-                $this->view('produto/index', ['msg' => 'Login realizado com sucesso.']);
+            if (!empty($usuarios)) {
+                $usuario = $usuarios[0];
+                if ($usuario->getNome() === $nome && password_verify($senha, $usuario->getSenha())) {
+                    $_SESSION['usuario'] = $usuario;
+                    $this->view('produto/index', ['msg' => 'Login realizado com sucesso.']);
+                } else {
+                    $this->view('usuario/login', ['msg' => 'Nome ou senha incorretos.']);
+                }
             } else {
                 $this->view('usuario/login', ['msg' => 'Nome ou senha incorretos.']);
             }
         } else {
-            $this->view('usuario/login', ['msg' => 'Nome ou senha incorretos.']);
+            $this->view('usuario/login', ['msg' => 'Acesso indevido.']);
         }
     }
 
@@ -117,12 +120,16 @@ class UsuarioController extends Controller
     // PESQUISA
     public function pesquisarUsuario()
     {
-        $nome = filter_input(INPUT_POST, "nome");
-        $usuarioDAO = new UsuarioDAO();
-        $usuarios = $usuarioDAO->buscarPorNome($nome);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nome = filter_input(INPUT_POST, "nome");
 
-        $this->view('usuario/index', ['usuario' => $usuarios]);
+            $usuarioDAO = new UsuarioDAO();
+            $usuarios = $usuarioDAO->buscarPorNome($nome);
+
+            $this->view('usuario/index', ['usuarios' => $usuarios, 'nome' => $nome]);
+        } else {
+            $this->view('usuario/index', ['msg' => 'Acesso indevido.']);
+        }
     }
 }
-
 ?>

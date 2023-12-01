@@ -9,7 +9,7 @@ include $base . '\..\layout\menu.php';
     <hr class="my-4">
 
     <div class="container mt-5">
-        <form action="/usuario/login" method="post">
+        <form action="/usuario/login" method="POST">
 
             <div class="form-group">
                 <label for="nome">Nome:</label>

@@ -123,23 +123,35 @@ class UsuarioDAO
     // PESQUISA
     public function buscarPorNome($nome)
     {
+
         $conn = $this->conexao->getConexao();
+        $nome = $conn->real_escape_string($nome);
+
         $SQL = "SELECT * FROM usuarios WHERE nome LIKE '$nome%'";
-        $result = $conn->query($SQL);
-        $usuarios = [];
 
-        while ($row = $result->fetch_assoc()) {
-            $usuario = new Usuario(
-                $row['nome'] ?? null,
-                $row['email'] ?? null,
-                $row['senha'] ?? null,
+        try {
+            $result = $conn->query($SQL);
 
-            );
-            $usuario->setId($row['id'] ?? null);
-            array_push($usuarios, $usuario);
+            $usuarios = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $usuario = new Usuario(
+                    $row['nome'],
+                    $row['email'],
+                    $row['senha']
+                );
+
+                if (method_exists($usuario, 'setId') && isset($row["id"])) {
+                    $usuario->setId($row["id"]);
+                }
+
+                array_push($usuarios, $usuario);
+            }
+
+            return $usuarios;
+        } catch (\Exception $e) {
+            return null;
         }
-
-        return $usuarios;
     }
 }
 ?>
