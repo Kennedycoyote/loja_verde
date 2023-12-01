@@ -1,5 +1,11 @@
 # loja_verde
 
+http://localhost:8080/usuario/cadastrar
+
+Acesso: Primeiro acesso ao banco de dados 
+logo em seguida adicionar '/usuario/cadastrar' em Controller.php 
+em proteção de rotas
+
 > Atividades
 1. [x] Criar o banco de dados da Loja
 2. [x] Criar a estrutura de pastas do projeto
@@ -33,4 +39,4 @@
 16. [x] Listar Produtos Na página Inicial [1.0]
 17. [x] Listar Produtos com Imagem [2.0]
 18. [x] Adicionar o Modal de Confirmação de exclusão no projeto[1.0]
-19. [x] Refatorar o ProdutoDAO com PreparedStatement ou PDO [1.0]
+19. [ ] Refatorar o ProdutoDAO com PreparedStatement ou PDO [1.0]
