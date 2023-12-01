@@ -15,15 +15,12 @@ include $base . '\..\layout\menu.php';
 
     <h1 class="display-4">Lista de Produtos</h1>
     <hr class="my-4">
-    <form action="/usuario/index" method="GET" class="form-inline">
-
-        <div class="form-group">
-            <input type="text" name="termo_pesquisa" placeholder="Pesquisar por nome" class="form-control mr-2">
-        </div>
-
-        <button type="submit" class="btn btn-outline-primary">Pesquisar</button>
-
-    </form>
+    <form action="/produto/pesquisarProduto" method="POST" class="form-inline">
+    <div class="form-group">
+        <input type="text" name="termo_pesquisa" placeholder="Pesquisar por nome" class="form-control mr-2">
+    </div>
+    <button type="submit" class="btn btn-outline-primary">Pesquisar</button>
+</form>
     <p> <a href="/produto/cadastrar" class="btn btn-primary"> Adicionar Produto </a></p>
     <?php if (isset($data['produtos']) && is_array($data['produtos'])) { ?>
         <table class="table table-striped table-bordered">
@@ -55,15 +52,12 @@ include $base . '\..\layout\menu.php';
 
                         <td>
                             <a href="/produto/atualizar/<?= $produto->getCodigo() ?>" class="btn btn-primary">Editar</a>
-                            <a href="#" class="btn btn-danger" data-toggle="modal"
-                                data-target="#confirmacaoExclusao<?= $produto->getCodigo() ?>">Excluir</a>
+                            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#confirmacaoExclusao<?= $produto->getCodigo() ?>">Excluir</a>
                         </td>
-                        <td><img src="<?= $produto->getImagemUrl() ?>" alt="Imagem do Produto"
-                                style="max-width: 50px; max-height: 50px; border: 1px solid #ccc;"></td>
+                        <td><img src="<?= $produto->getImagemUrl() ?>" alt="Imagem do Produto" style="max-width: 50px; max-height: 50px; border: 1px solid #ccc;"></td>
 
                     </tr>
-                    <div class="modal fade" id="confirmacaoExclusao<?= $produto->getCodigo() ?>" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="confirmacaoExclusao<?= $produto->getCodigo() ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">

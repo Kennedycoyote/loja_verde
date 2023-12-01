@@ -119,17 +119,27 @@ class ProdutoDAO
             return false;
         }
     }
-    
+
     // PESQUISA 
-    public function pesquisarPorNome($searchTerm)
+    public function pesquisarPorNome($termoPesquisa)
     {
-        $allProducts = $this->findAll();
+        $conn = $this->conexao->getConexao();
+        $SQL = "SELECT * FROM produtos WHERE nome LIKE '$termoPesquisa%'";
+        $result = $conn->query($SQL);
+        $produtos = [];
 
-        $filteredProducts = array_filter($allProducts, function ($produto) use ($searchTerm) {
-            return strpos(strtolower($produto->getNome()), strtolower($searchTerm)) !== false;
-        });
+        while ($row = $result->fetch_assoc()) {
+            $produto = new Produto(
+                isset($row["nome"]) ? $row["nome"] : null,
+                isset($row["marca"]) ? $row["marca"] : null,
+                isset($row["preco"]) ? $row["preco"] : null,
+                isset($row["imagem_url"]) ? $row["imagem_url"] : null
+            );
+            $produto->setCodigo(isset($row["codigo"]) ? $row["codigo"] : null);
+            array_push($produtos, $produto);
+        }
 
-        return $filteredProducts;
+        return $produtos;
     }
 }
 ?>

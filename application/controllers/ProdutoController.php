@@ -31,17 +31,17 @@ class ProdutoController extends Controller
         $marca = $_POST['marca'];
         $preco = $_POST['preco'];
         $imagemUrl = isset($_POST['imagem_url']) ? $_POST['imagem_url'] : null;
-    
+
         if (!empty($_FILES['imagem']['name'])) {
             $imagemUrl = $this->salvarImagem($_FILES['imagem']);
         }
-    
+
         $produto = new Produto($nome, $marca, $preco, $imagemUrl);
         $produto->setImagemUrl($imagemUrl);
-    
+
         $produtoDAO = new ProdutoDAO();
         $produtoDAO->cadastrar($produto);
-    
+
         $this->view('produto/cadastrar', ["msg" => "Cadastrado com Sucesso"]);
     }
 
@@ -57,7 +57,7 @@ class ProdutoController extends Controller
                 $nome = $_POST['nome'];
                 $marca = $_POST['marca'];
                 $preco = $_POST['preco'];
-            
+
 
                 $produto->setNome($nome);
                 $produto->setMarca($marca);
@@ -66,7 +66,7 @@ class ProdutoController extends Controller
                 if (!empty($_FILES['imagem']['name'])) {
                     $imagemUrl = $this->salvarImagem($_FILES['imagem']);
                     $produto->setImagemUrl($imagemUrl);
-                }               
+                }
 
                 $produtoDAO->atualizar($produto);
                 header("Location: /produto/index");
@@ -106,19 +106,12 @@ class ProdutoController extends Controller
     // PESQUISA
     public function pesquisarProduto()
     {
-        $termoPesquisa = isset($_GET['termo_pesquisa']) ? $_GET['termo_pesquisa'] : '';
+        $termoPesquisa = filter_input(INPUT_POST, "termo_pesquisa");
 
-        if (!empty($termoPesquisa)) {
-            $produtoDAO = new ProdutoDAO();
-            $produtosEncontrados = $produtoDAO->pesquisarPorNome($termoPesquisa);
+        $produtoDAO = new ProdutoDAO();
+        $produtos = $produtoDAO->pesquisarPorNome($termoPesquisa);
 
-            // Renderize a view correspondente com os produtos encontrados
-            $this->view('produto/resultado_pesquisa', ['produtos' => $produtosEncontrados]);
-        } else {
-            // Redirecione para a página principal de produtos se não houver termo de pesquisa
-            header("Location: /produto/index");
-            exit();
-        }
+        $this->view('produto/index', ['produtos' => $produtos]);
     }
 }
 ?>

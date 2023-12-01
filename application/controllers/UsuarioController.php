@@ -115,4 +115,5 @@ class UsuarioController extends Controller
 }
 
     // PESQUISA
+    
 ?>
